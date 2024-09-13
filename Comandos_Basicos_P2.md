@@ -80,6 +80,8 @@ mv nombre_carpeta nuevo_nombre
 mv archivo nuevo_nombre
 ```
 
+### Replicar estos pasos
+
 1. Crear 2 carpetas Ejemplo1 y Ejemplo2 
 2. Crear un archivo dentro de Ejemplo1 
 3. Ingresar a Ejemplo2 y Traer el Archivo aqui.
