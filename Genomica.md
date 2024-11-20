@@ -104,4 +104,61 @@ samtools index sars-cov2.sorted.bam
 samtools mpileup -A -d 0 -Q 0 sars-cov2.sorted.bam | ivar consensus -p consenso -q 25 -t 0.06 -n N -m 10
 ```
 
+## Ensamblaje de De Novo 
 
+  ```bash
+spades.py -k 21 -t 4 -1 data/SRR30889329_1.fastq.gz -2 data/SRR30889329_2.fastq.gz -o results
+```	
+
+
+### Procesar los resultados 
+
+ ```bash
+samtools faidx scaffolds.fasta  
+##crea  scaffolds.fasta.fai
+```	
+
+#### crearmos una lista de los scaffolds seleccionados
+Ponemos un umbral de 500 para selccionar las secuencias mayores y posteriormente alinear al genoma de referencia.
+ ```bash
+awk '$2 > 500 {print $1}' scaffolds.fasta.fai > lista.txt'
+```	
+
+#### Filtrar las secuencias 
+
+ ```bash
+samtools faidx scaffolds.fasta $(cat lista.txt) > Select.fasta 
+ ```	
+
+Vamos a juntarlo con el genoma de referencia 
+
+### covid
+```bash
+efetch -db nucleotide -id NC_045512.2 -format fasta > reference_sars_cov2.fasta
+```
+### vih 
+```bash
+efetch -db nucleotide -id NC_001802.1 -format fasta > data/reference_vih.fast
+```
+### virus mosaico de nabo
+
+```bash
+efetch -db nucleotide -id NC_002509.2 -format fasta > data/reference_TuMV.fasta
+```
+
+
+Juntamos ambas secuencias 
+
+```bash
+cat Select.fasta reference_sars_cov2.fasta  > Alineamiento.fasta
+```
+Instalamos `mafft` 
+
+```bash
+sudo apt install mafft 
+```
+Alineamos las secuencias :
+
+```bash 
+mafft --auto Alineamiento.fasta > alineado.fasta
+```
