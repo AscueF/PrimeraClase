@@ -67,3 +67,41 @@ Input Read Pairs: 258680 Both Surviving: 250306 (96.76%)
 361 (0.14%)| Dropped: 6114 (2.36%)  
 TrimmomaticPE: Completed successfully
 ```
+
+## Practica 6 
+
+### index del genoma  
+
+  ```bash
+mkdir -p data/index  
+efetch -db nucleotide -id NC_045512.2 -format fasta > data/index/reference_sars_cov2.fasta
+bowtie2-build data/index/*.fasta data/index/sars
+```
+
+
+### Alineamiento del genoma  
+
+  ```bash
+mkdir -p resultados/ensamblaje  
+bowtie2 --end-to-end -p 4 -x data/index/sars -1 resultados/filtrado/f_f-p.fq.gz -2 resultados/filtra  
+do/file_r_p.fq.gz -S resultados/ensamblaje/sars-cov2.sam
+```
+
+### Procesar Sam
+
+
+  ```bash
+cd resultados/ensamblaje
+samtools view -b --threads 2 sars-cov2.sam | samtools sort -@ 4 -o sars-cov2.sorted.bam -  
+  
+samtools index sars-cov2.sorted.bam
+```
+
+
+### consenso de genoma
+
+  ```bash
+samtools mpileup -A -d 0 -Q 0 sars-cov2.sorted.bam | ivar consensus -p consenso -q 25 -t 0.06 -n N -m 10
+```
+
+
