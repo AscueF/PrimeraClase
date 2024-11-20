@@ -162,3 +162,7 @@ Alineamos las secuencias :
 ```bash 
 mafft --auto Alineamiento.fasta > alineado.fasta
 ```
+
+
+## TAREA 
+Realizar un emsablaje de genoma con kmers 31, y generar el alinemaiento con el conting mas grande 
