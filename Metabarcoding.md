@@ -1,3 +1,4 @@
+```r
 ## Como instalar paquetes
 ## sudo apt install _____
 
@@ -135,5 +136,5 @@ ps_rar %>% comp_barplot('Genus', n_taxa = 5, merge_other = TRUE) +
   coord_flip()+
   ggtitle('Location ComportPlot')+
   theme_economist()
-
+```
 
